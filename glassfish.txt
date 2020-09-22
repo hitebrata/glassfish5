@@ -1,0 +1,19 @@
+# glassfish5
+
+mv /home/visnetbbsrzabbix/jdk-8u221-linux-x64.rpm .
+dnf localinstall jdk-8u221-linux-x64.rpm
+mv /opt/latest-glassfish.zip .
+unzip -d /opt/ glassfish-5.0.zip
+/opt/glassfish5/bin/asadmin start-domain
+/opt/glassfish5/bin/asadmin --host localhost --port 4848 change-admin-password
+/opt/glassfish5/bin/asadmin --host localhost --port 4848 enable-secure-admin
+cat /opt/glassfish5/glassfish/domains/domain1/logs/server.log
+cd /opt/glassfish5/glassfish/modules/endorsed
+mv grizzly-npn-bootstrap.jar grizzly-npn-bootstrap.jar.1
+wget https://search.maven.org/remotecontent?filepath=org/glassfish/grizzly/grizzly-npn-bootstrap/1.9/grizzly-npn-bootstrap-1.9.jar -O grizzly-npn-bootstrap.jar
+chown glassfish:glassfish grizzly-npn-bootstrap.jar
+cd ~
+/opt/glassfish5/glassfish/bin/asadmin stop-domain
+ps -aux | grep java
+/opt/glassfish5/glassfish/bin/asadmin start-domain
+cat /opt/glassfish5/glassfish/domains/domain1/logs/server.log
